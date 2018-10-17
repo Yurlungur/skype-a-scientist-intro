@@ -1,0 +1,11 @@
+ssas.pdf
+auto
+*.out
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls

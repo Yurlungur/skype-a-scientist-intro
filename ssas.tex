@@ -1,0 +1,263 @@
+%\pdfminorversion=4
+\documentclass[]{beamer}
+\mode<presentation>
+% Time-stamp: <2017-10-17 12:46:02 (jonahm)>
+
+% beamer stuff
+% Gives us the bottom line with all the goodies
+\useoutertheme{infolines}
+% Just the theme to use. Should be built into bemaer. Setting the
+% height gets rid of a whole lot of whitespace
+\usetheme[height=7mm]{Rochester}
+\usefonttheme{serif}
+% Usually beamer gives you navigation hyperlinks on the bottom
+% right. I turned this off. It's annoying.
+\setbeamertemplate{navigation symbols}{} 
+% Makes my text boxes look pretty
+\setbeamertemplate{blocks}[rounded][shadow=true] 
+% Makes my bullet points 3d balls
+\setbeamertemplate{items}[ball]
+
+% Josh's packages
+\usepackage{multimedia}
+\usepackage{graphicx}
+
+% Packages for me
+\usepackage{amsmath,amssymb,latexsym,amsthm}
+\usepackage[mathscr]{eucal}
+\usepackage{mathrsfs}
+\usepackage{verbatim}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{xcolor}
+% \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{fancybox}
+\usepackage{animate}
+% \usepackage{media9}
+\usepackage{multicol}
+\usepackage{mdframed}
+\usepackage{hyperref}
+%\usepackage{scalerel}
+\usepackage[outline]{contour}
+\contourlength{1.2pt}
+
+% Macros
+
+%Blackboard Bold
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+% other
+\newcommand{\eval}{\biggr\rvert} %evaluated at
+\newcommand{\myvec}[1]{\mathbf{#1}} % vectors for me
+% total derivatives 
+\newcommand{\diff}[2]{\frac{d #1}{d #2}} 
+\newcommand{\dd}[1]{\frac{d}{d #1}}
+% partial derivatives
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}} 
+\newcommand{\pdd}[1]{\frac{\partial}{\partial #1}} 
+% Order operator
+\DeclareRobustCommand{\orderof}{\ensuremath{\mathcal{O}}}
+
+% tikz
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{pgfplots}
+
+
+% Keys to support piece-wise uncovering of elements in TikZ pictures:
+% \node[visible on=<2->](foo){Foo}
+% \node[visible on=<{2,4}>](bar){Bar}   % put braces around comma expressions
+% 
+% Internally works by setting opacity=0 when invisible, which has the 
+% adavantage (compared to \node<2->(foo){Foo} that the node is always there, hence
+% always consumes space plus that coordinate (foo) is always available.
+% 
+% The actual command that implements the invisibility can be overriden
+% by altering the style invisible. For instance \tikzsset{invisible/.style={opacity=0.2}}
+% would dim the "invisible" parts. Alternatively, the color might be set to white, if the
+% output driver does not support transparencies (e.g., PS) 
+% 
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={alt={#1{}{invisible}}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+  },
+}
+
+% some nice flowchart features
+\tikzset{
+    mynode/.style={rectangle,rounded corners,draw=black, top color=white, bottom color=yellow!50,very thick, inner sep=1em, minimum size=3em, text centered},
+    myarrow/.style={->, >=latex', shorten >=1pt, thick},
+    mylabel/.style={text width=7em, text centered} 
+}  
+
+% squigly arrow
+\tikzset{zigzag it/.style={decorate, decoration=zigzag}}
+
+\newcommand{\PI}{3.14}
+
+% define a really nice visible "purple"
+\definecolor{gimppurple}{HTML}{AD26FB}
+% a light grey
+\definecolor{lightgrey}{HTML}{E0E0E0}
+% for highlighting
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+% fonts
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+otherkeywords={self},
+keywordstyle=\ttb\color{deepblue},
+emph={__init__},           
+emphstyle=\ttb\color{deepred},
+commentstyle=\ttfamily\color{deepred},
+stringstyle=\color{deepgreen},
+frame=tb,                     
+showstringspaces=false        
+}}
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+\newcommand{\backupbegin}{
+   \newcounter{finalframe}
+   \setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \setcounter{framenumber}{\value{finalframe}}
+}
+
+% Automatically generates section breaker slides
+\AtBeginSection[]{
+  \begin{frame}[plain]
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+\title[SSAS]{Computers and Dense Space Stuff} 
+\author[J. Miller]{Jonah M. Miller}
+\institute[LANL]{Los Alamos National Lab}
+
+\date[10/22/18]{Skype a Scientist\\LA-UR-18-26592}
+
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dense Space Stuff!}
+  \begin{columns}
+    \begin{column}{5cm}
+      \begin{center}
+        \href{https://youtu.be/e7LcmWiclOs}{\includegraphics[width=\columnwidth]{GW170817-rendition}}
+      \end{center}
+    \end{column}
+    \begin{column}{7cm}
+    \includegraphics[width=\columnwidth]{ns-manhattan}  
+    \end{column}
+  \end{columns}
+  % \url{https://youtu.be/e7LcmWiclOs}\\
+  % NSF/LIGO/Sonoma State University/A. Simonnet\\
+  %  NASA's Goddard Space Flight Center/CI Lab
+\end{frame}
+
+% \begin{frame}
+%   \frametitle{Observations Galore!}
+%   \begin{center}
+%     \includegraphics[height=7cm]{abbot-timeline}
+%   \end{center}
+%   Abbot+, 2017
+% \end{frame}
+
+\begin{frame}
+  \frametitle{Star Smashing!}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{frames/betabin_000}
+    %\animategraphics[height=0.8\textheight,every=10,autoplay,loop,controls]
+    %{5}{frames/betabin_}{000}{374}
+  \end{center}
+    \textbf{JMM}+, 2016
+\end{frame}
+
+\begin{frame}
+  \frametitle{Gamma Ray Burst!}
+  \begin{center}
+    \includegraphics[width=0.9\textwidth]{ruiz-2016}
+  \end{center}
+  Ruiz+, 2016
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Radioactive Cloud}
+  \begin{center}
+    \includegraphics[height=7cm,clip,trim={4cm 1.5cm 4cm 0cm}]
+      {ejecta-morphology-z-projection}
+  \end{center}
+  \textbf{JMM}+, 2016
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Kilonova}
+  \begin{center}
+    \includegraphics[width=10cm]{swope-image}
+  \end{center}
+  M2H/UC Santa Cruz and Carnegie Observatories/Ryan Foley
+\end{frame}
+
+\begin{frame}
+  \frametitle{The disk of stuff}
+  \begin{center}
+    \includegraphics[width=7cm]{disk_3d_render}
+  \end{center}
+  \textbf{JMM}+, in prep.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simulating the disk of stuff}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{torus2d_frames/frame_0400}
+    %\animategraphics[height=0.8\textheight,every=10,autoplay,loop,controls]
+    %{5}{torus2d_frames/frame_}{0000}{0400}
+  \end{center}
+    \textbf{JMM}+, in prep.
+\end{frame}
+
+\begin{frame}
+  \frametitle{We Need Big Computers!}
+  \begin{center}
+    \includegraphics[height=6cm]{trinity-supercomputer}
+  \end{center}
+\end{frame}
+
+\backupbegin
+\backupend
+
+\end{document}
